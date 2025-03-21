@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Matrix Rain</title>
+<style>
+body {
+  background-color: black;
+  color: #00FF00;
+  font-family: monospace;
+  overflow: hidden;
+  margin: 0;
+}
+
+.column {
+  position: absolute;
+  white-space: pre;
+}
+</style>
+</head>
+<body>
+<script>
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/= %()[]{}<>!@#";
+const numColumns = Math.floor(window.innerWidth / 10); // Adjust 10 for font size
+const columns = [];
+
+let speed = 300;
+
+
+// Create columns
+for (let i = 0; i < numColumns; i++) {
+  const column = document.createElement('div');
+  column.classList.add('column');
+  column.style.left = i * 10 + 'px'; // Adjust 10 for font size
+  document.body.appendChild(column);
+  columns.push(column);
+}
+
+function getRandomCharacter() {
+  return characters.charAt(Math.floor(Math.random() * characters.length));
+}
+
+function updateColumn(column) {
+  let text = '';
+  for (let i = 0; i < Math.floor(window.innerHeight / 15); i++) { // Adjust 15 for line height
+    text += getRandomCharacter() + '\n';
+  }
+  column.textContent = text;
+}
+
+function animate() {
+  columns.forEach(column => {
+    if (Math.random() > 0.3)
+        updateColumn(column);
+  });
+  setTimeout(() => {
+    requestAnimationFrame(animate);
+  }, Math.random() * speed);
+}
+
+animate();
+</script>
+</body>
+</html>

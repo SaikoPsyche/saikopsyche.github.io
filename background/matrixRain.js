@@ -4,10 +4,10 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const fontSize = 25;
+const fontSize = 16;
 
 const rain = [];
-const dropDensity = Math.floor(canvas.width / 5);
+const dropDensity = Math.floor(canvas.width / 15);
 for (let i = 0; i < dropDensity; i++) {
     rain.push({
         x: Math.random() * canvas.width,
@@ -20,12 +20,12 @@ for (let i = 0; i < dropDensity; i++) {
 
 function getRandomChar() {
     //const chars = String.fromCharCode(Math.floor(Math.random() * 255));
-    //const chars = "abcdef0123456789";
     const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const cyrillic = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';    
+    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     const nums = '0123456789';
 
-    const chars = katakana + latin + nums;
+    const chars = cyrillic + latin + nums;
     return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -33,17 +33,17 @@ function getRandomChar() {
 function draw() {
     ctx.fillStyle = "rgb(0, 0, 0, 0.1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = "25px monospace";
-    ctx.fillStyle = "green";
+    ctx.font = fontSize + "px monospace";
+    ctx.fillStyle = '#0F0';
     for (let i = 0; i < rain.length; i++) {
         rain[i].char = getRandomChar();
         ctx.fillText(rain[i].char, rain[i].x, rain[i].y);
         rain[i].y += rain[i].speed;
         
-        // // Calculate the color for the raindrop based on its y-position
-        // const fadeFactor = Math.min(1, rain[i].y / canvas.height); // Fade factor based on y-position
-        // ctx.fillStyle = `rgb(${255 * fadeFactor}, ${255 * fadeFactor}, ${255 * fadeFactor})`; // White to green effect
-        
+        // check if y pos of rain[i] is lowest in the array
+        // if true, fillStyle = #FFF
+        // remove pos if y < canvas.height
+
         if (rain[i].y > canvas.height) {
             rain[i].y = -rain[i].length;
             rain[i].x = Math.random() * canvas.width;
@@ -53,4 +53,4 @@ function draw() {
     }
 }
 
-setInterval(draw, 90);
+setInterval(draw, 60);
